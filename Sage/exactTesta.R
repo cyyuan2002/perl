@@ -1,0 +1,13 @@
+exactTesta<-function(DGEdata,groups,cols,bestRow,sorttype="p.value"){
+	res.comp<-exactTest(DGEdata,pair=groups)
+	res.rname<-rownames(topTags(res.comp,n=bestRow,sort.by=sorttype)$table)
+	res.cols<-DGEdata$counts[res.rname,cols]
+	res.pvalue<-res.comp$table[res.rname,]
+	res.merge<-merge(res.pvalue,res.cols,by=0)
+	if(sorttype=="p.value"){
+		res.merge[order(res.merge[,"p.value"]),]
+	}
+	else{
+		res.merge[order(abs(res.merge[,"logFC"]),decreasing=TRUE),]
+	}
+}

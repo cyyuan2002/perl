@@ -1,0 +1,5 @@
+jellyfish_path		/ifs2/BC_GAG/Group/Zhandl/bin/jellyfish
+gcc_path			/opt/blc/gcc-4.5.0
+PATH				/ifs2/BC_GAG/Group/Zhandl/bin/jellyfish/bin:/opt/blc/gcc-4.5.0/bin:$PATH
+LD_LIBRARY_PATH		/ifs2/BC_GAG/Group/Zhandl/bin/jellyfish/lib:/opt/blc/gcc-4.5.0/lib64:$LD_LIBRARY_PATH
+LIBRARY_PATH		/ifs2/BC_GAG/Group/Zhandl/bin/jellyfish/lib:/opt/blc/gcc-4.5.0/lib:$LD_LIBRARY_PATH

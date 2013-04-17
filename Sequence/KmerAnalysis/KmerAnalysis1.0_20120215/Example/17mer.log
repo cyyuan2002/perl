@@ -1,0 +1,109 @@
+10 threads created!
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002769/111212_I878_FCC075VACXX_L4_SZAXPE002769_1.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002769/111212_I878_FCC075VACXX_L4_SZAXPE002769_1.fq.gz.clean.dup.clean.gz
+processed reads 10000000
+processed reads 20000000
+processed reads 30000000
+processed reads 40000000
+processed reads 50000000
+processed reads 60000000
+processed reads 70000000
+processed reads 80000000
+processed reads 90000000
+processed reads 100000000
+processed reads 110000000
+processed reads 120000000
+processed reads 130000000
+processed reads 140000000
+processed reads 150000000
+processed reads 160000000
+processed reads 170000000
+processed reads 180000000
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002769/111212_I878_FCC075VACXX_L4_SZAXPE002769_2.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002769/111212_I878_FCC075VACXX_L4_SZAXPE002769_2.fq.gz.clean.dup.clean.gz
+processed reads 190000000
+processed reads 200000000
+processed reads 210000000
+processed reads 220000000
+processed reads 230000000
+processed reads 240000000
+processed reads 250000000
+processed reads 260000000
+processed reads 270000000
+processed reads 280000000
+processed reads 290000000
+processed reads 300000000
+processed reads 310000000
+processed reads 320000000
+processed reads 330000000
+processed reads 340000000
+processed reads 350000000
+processed reads 360000000
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002768/111212_I878_FCC06Y8ACXX_L6_SZAXPE002768_1.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002768/111212_I878_FCC06Y8ACXX_L6_SZAXPE002768_1.fq.gz.clean.dup.clean.gz
+processed reads 370000000
+processed reads 380000000
+processed reads 390000000
+processed reads 400000000
+processed reads 410000000
+processed reads 420000000
+processed reads 430000000
+processed reads 440000000
+processed reads 450000000
+processed reads 460000000
+processed reads 470000000
+processed reads 480000000
+processed reads 490000000
+processed reads 500000000
+processed reads 510000000
+processed reads 520000000
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002768/111212_I878_FCC06Y8ACXX_L6_SZAXPE002768_2.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPE002768/111212_I878_FCC06Y8ACXX_L6_SZAXPE002768_2.fq.gz.clean.dup.clean.gz
+processed reads 530000000
+processed reads 540000000
+processed reads 550000000
+processed reads 560000000
+processed reads 570000000
+processed reads 580000000
+processed reads 590000000
+processed reads 600000000
+processed reads 610000000
+processed reads 620000000
+processed reads 630000000
+processed reads 640000000
+processed reads 650000000
+processed reads 660000000
+processed reads 670000000
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPI002791-6/111217_I658_FCD0BVAACXX_L7_SZAXPI002791-6_1.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPI002791-6/111217_I658_FCD0BVAACXX_L7_SZAXPI002791-6_1.fq.gz.clean.dup.clean.gz
+processed reads 680000000
+processed reads 690000000
+processed reads 700000000
+processed reads 710000000
+processed reads 720000000
+processed reads 730000000
+processed reads 740000000
+processed reads 750000000
+processed reads 760000000
+File: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPI002791-6/111217_I658_FCD0BVAACXX_L7_SZAXPI002791-6_2.fq.gz.clean.dup.clean.gz
+read file: /ifshk1/BC_gag/PROJECT/T11067_ARTjmiD/00.data/01.filter/SZAXPI002791-6/111217_I658_FCD0BVAACXX_L7_SZAXPI002791-6_2.fq.gz.clean.dup.clean.gz
+processed reads 770000000
+processed reads 780000000
+processed reads 790000000
+processed reads 800000000
+processed reads 810000000
+processed reads 820000000
+processed reads 830000000
+processed reads 840000000
+Load All files done!
+Waitint for threads to exit...
+All threads finished!
+Used time: 149.133 minutes.
+Please check the peek position carefully
+kmer	kmer_num	pkdepth	genome_size	used_base	used_read	X	average_read_len	node_num
+17	71094946860	20	3554747343	84636841500	846368415	23.8095	99	1570530051
+modified kmer_num is: 70205897562	3510294878
+
+All done! Using time 161.733mins.
+Thank you!
+
