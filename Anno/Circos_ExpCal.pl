@@ -39,12 +39,12 @@
 
 use strict;
 
-my ($expFile,$chrominfo,$windowsize)=@ARGV;
-die "Usage:$0 <Exp_File> <Chrom_Info> [Windowsize, default: 1000]\n" if (@ARGV<3);
+my ($expFile,$chrominfo,$splitmode,$windowsize)=@ARGV;
+die "Usage:$0 <Exp_File> <Chrom_Info> [Split Mode: 1 tab, default;2 space] [Windowsize, default: 1000]\n" if (@ARGV<2);
 
 my %chroms;
 $windowsize ||=1000;
-
+$splitmode ||=1;
 my @chromName;
 open(my $fh_chrominfo,$chrominfo) || die "Can't open file $chrominfo";
 while(<$fh_chrominfo>){
@@ -60,7 +60,13 @@ my %ChromRep;
 open(my $fh_expfile,$expFile);
 while(<$fh_expfile>){
     chomp();
-    my @lines=split(/\t/,$_);
+    my @lines;
+    if ($splitmode == 1) {
+        @lines=split(/\t/,$_);
+    }
+    else{
+        @lines=split(/\s+/,$_);
+    }
     my $chrom=$lines[0];
     my $start=int($lines[1]/$windowsize);
     my $end=int($lines[3]/$windowsize)+1;
