@@ -46,7 +46,7 @@ my %chroms;
 $windowsize ||=1000;
 $splitmode ||=1;
 my @chromName;
-open(my $fh_chrominfo,$chrominfo) || die "Can't open file $chrominfo";
+open(my $fh_chrominfo,$chrominfo) || die "Can't open file $chrominfo\n";
 while(<$fh_chrominfo>){
     chomp();
     my @lines=split(/\t/,$_);
@@ -57,7 +57,7 @@ close $fh_chrominfo;
 
 my %ChromRep;
 
-open(my $fh_expfile,$expFile);
+open(my $fh_expfile,$expFile) || die "Can't open file $expFile\n";
 while(<$fh_expfile>){
     chomp();
     my @lines;
@@ -69,20 +69,20 @@ while(<$fh_expfile>){
     }
     my $chrom=$lines[0];
     my $start=int($lines[1]/$windowsize);
-    my $end=int($lines[3]/$windowsize)+1;
+    my $end=int($lines[2]/$windowsize)+1;
     for(my $i=$start;$i<$end;$i++){
         if(!exists($ChromRep{$chrom})){
             my %rep;
-            $rep{$i}=$lines[5];
+            $rep{$i}=$lines[3];
             $ChromRep{$chrom}=\%rep;
         }
         else{
             my %rep=%{$ChromRep{$chrom}};
             if(!exists($rep{$i})){
-                $rep{$i}=$lines[5];
+                $rep{$i}=$lines[3];
             }
             else{
-                $rep{$i}+=$lines[5];
+                $rep{$i}+=$lines[3];
             }
             $ChromRep{$chrom}=\%rep;
         }
