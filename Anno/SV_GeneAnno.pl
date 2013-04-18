@@ -100,7 +100,7 @@ sub GFF_Reader{
 #	start
 #	end
 #	strand
-#	transcript
+#	transcripts
 #               [0]->ID
 #               [0]->parent
 #               [0]->name
@@ -113,6 +113,9 @@ sub GFF_Reader{
 #			[0]->end
 #			[1]->start
 #			[1]->end
+#               [0]->cds
+#                       [0]->start
+#                       [0]->end
 #		[1]->start
 #		[1]->end
 #		[1]->5UTR
@@ -153,6 +156,8 @@ sub GFF_Reader{
                 @exons=Sort_Exons(@exons);
                 @cds=Sort_Exons(@cds);
                 my @tmpexons=@exons;
+                my @tmpcds=@cds;
+                $transcript{'cds'}=\@tmpcds;
                 $transcript{'exons'}=\@tmpexons;
                 my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
                 $transcript{'UTRA'}=$UTRA;
@@ -190,6 +195,8 @@ sub GFF_Reader{
                 @exons=Sort_Exons(@exons);
                 @cds=Sort_Exons(@cds);
                 my @tmpexons=@exons;
+                my @tmpcds=@cds;
+                $transcript{'cds'}=\@tmpcds;
                 $transcript{'exons'}=\@tmpexons;
                 my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
                 $transcript{'UTRA'}=$UTRA;
@@ -236,6 +243,8 @@ sub GFF_Reader{
         @exons=Sort_Exons(@exons);
         @cds=Sort_Exons(@cds);
         my @tmpexons=@exons;
+        my @tmpcds=@cds;
+        $transcript{'cds'}=\@tmpcds;
         $transcript{'exons'}=\@tmpexons;
         my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
         $transcript{'UTRA'}=$UTRA;
@@ -247,7 +256,6 @@ sub GFF_Reader{
     }
 
     my $chr_anno=Sort_Chroms(\%geneAnno,\%chroms);
-
     return $chr_anno;
 }
 
@@ -364,6 +372,55 @@ sub Search_BPLocus{
     return ($isBPfound,$typeBP,$indexBP);
 }
 
+sub Search_SVCoding{
+    my ($bpleft,$bpright,$chrom_info)=@_;
+    my @Chrom_Anno=@{$chrom_info};
+    my $iscds=0;
+    my $cdscount=0;
+    my $cdslength=0;
+    my $lastEnd=0;
+    my $isleftfound=0;
+    for(my $i=0;$i<@Chrom_Anno;$i++){
+        my $geneinfo=$Chrom_Anno[$i];
+        if ($geneinfo->{'start'} >= $bpleft && $geneinfo->{'start'} <= $bpright
+            || $geneinfo->{'start'} <= $bpleft && $geneinfo->{'end'} >= $bpleft) { ##overlap
+            $cdscount++;
+            my @cds=@{$geneinfo->{'transcripts'}->[0]->{'cds'}};
+            foreach my $cdsinfo(@cds){
+                if ($cdsinfo->{'start'} >= $bpleft && $cdsinfo->{'start'} <=$bpright ) {
+                    if ($cdsinfo->{'end'} >= $bpright) {
+                        my $overlen=$bpright-$cdsinfo->{'start'}+1;
+                        $cdslength+=$overlen;
+                        last;
+                    }
+                    else{
+                        my $overlen=$cdsinfo->{'end'}-$cdsinfo->{'start'}+1;
+                        $cdslength+=$overlen;
+                    }
+                }
+                elsif($cdsinfo->{'start'} <= $bpleft && $cdsinfo->{'end'} >=$bpleft){
+                    if ($cdsinfo->{'end'} >= $bpright) {
+                        my $overlen=$bpright-$bpleft+1;
+                        $cdslength+=$overlen;
+                        last;
+                    }
+                    else{
+                        my $overlen=$cdsinfo->{'end'}-$bpleft+1;
+                        $cdslength+=$overlen;
+                    }
+                }
+                elsif($cdsinfo->{'start'} >= $bpright){
+                    last;
+                }
+            }
+        }
+        elsif($geneinfo->{'start'}>=$bpright){
+            last;
+        }
+    }
+    return ($cdscount,$cdslength);
+}
+
 #-----------------------Main------------------------
 
 my ($parGFFFile,$parBpFile)=@ARGV;
@@ -419,7 +476,8 @@ while (<$fh_BpFile>) {
 
             ##MID region of the SV
             my $OutMid=Search_MidRegion($bpleft,$bpright,\@Chrom_Anno);
-            print "MID:$OutMid\n";
+            my ($cdscount,$cdslen)=Search_SVCoding($bpleft,$bpright,\@Chrom_Anno);
+            print "MID:$OutMid\tCDS:$cdscount\tCDS_Len:$cdslen\n";
         }
         else{ ## 3' of the chromsome
             my $leftgeneinfo=$Chrom_Anno[scalar(@Chrom_Anno)-1];
@@ -428,7 +486,7 @@ while (<$fh_BpFile>) {
             my $leftgenestrand=$leftgeneinfo->{'strand'};
             print "LEFT:intergenic -- pre_gene($leftlength) $leftgene($leftgenestrand)\t";
             print "RIGHT:intergenic -- next_gene NA\t";
-            print "MID:NA\n";
+            print "MID:NA\tCDS:0\tCDS_Len:0\n";
         }
     }
     elsif($lines[4] eq 'INV' || $lines[4] eq 'CTX'){
