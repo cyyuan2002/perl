@@ -34,8 +34,8 @@ open(my $fh_outsam, ">", "$BamFile.edt.sam");
 while (<$fh_samfile>) {
     chomp();
     my @lines=split(/\t/);
-    if ($lines[5] ==255) {
-        $lines[5]=-1;
+    if ($lines[4] ==255) {
+        $lines[4]=-1;
         print $fh_outsam join("\t",@lines);
     }
     else{
