@@ -143,10 +143,10 @@ sub GFF_Reader{
         }
         if ($lines[2] eq 'gene') {
             if ($lastGN ne "") {
-                my @tmpexons=@exons;
-                my @tmpcds=@cds;
                 @exons=Sort_Exons(@exons);
                 @cds=Sort_Exons(@cds);
+                my @tmpexons=@exons;
+                my @tmpcds=@cds;
                 $transcript{'cds'}=\@tmpcds;
                 $transcript{'exons'}=\@tmpexons;
                 my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
@@ -182,10 +182,10 @@ sub GFF_Reader{
         }
         elsif($lines[2] eq 'mRNA'){
             if (exists($transcript{'start'})) {
-                my @tmpexons=@exons;
-                my @tmpcds=@cds;
                 @exons=Sort_Exons(@exons);
                 @cds=Sort_Exons(@cds);
+                my @tmpexons=@exons;
+                my @tmpcds=@cds;
                 $transcript{'cds'}=\@tmpcds;
                 $transcript{'exons'}=\@tmpexons;
                 my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
@@ -230,10 +230,10 @@ sub GFF_Reader{
         }
     }
     {
-        my @tmpexons=@exons;
-        my @tmpcds=@cds;
         @exons=Sort_Exons(@exons);
         @cds=Sort_Exons(@cds);
+        my @tmpexons=@exons;
+        my @tmpcds=@cds;
         $transcript{'cds'}=\@tmpcds;
         $transcript{'exons'}=\@tmpexons;
         my ($UTRA,$UTRB)=Get_UTR(\@cds,$transcript{'start'},$transcript{'end'});
@@ -278,12 +278,12 @@ foreach my $key(sort keys %chrom_len){
     my @chrominfo=@{$refGffAnno->{$key}};
     my $startpos=1;
     for(my $i=0;$i<@chrominfo;$i++){
-        my $refexons=$chrominfo[$i]->{'transcripts'}->{'0'}->{'exons'};
+        my $refexons=$chrominfo[$i]->{'transcripts'}->[0]->{'exons'};
         my @exons=@{$refexons};
         for(my $j=0;$j<@exons;$j++){
             my $endpos=$exons[$j]->{'start'}-1;
             print "$key:$startpos-$endpos\n";
-            my $startpos=$exons[$j]->{'end'}+1;
+            $startpos=$exons[$j]->{'end'}+1;
         }
     }
     print "$key:$startpos-$chrom_len{$key}\n";
