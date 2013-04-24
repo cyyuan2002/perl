@@ -67,13 +67,15 @@ draw_region<-function(Chrom_List,Region_File){
 			region_converted[i,1]= region_info[i,1];
 			region_converted[i,2]= region_info[i,2]+ Chrom[as.character(region_info[i,1]),1];
 			region_converted[i,3]= region_info[i,3]+ Chrom[as.character(region_info[i,1]),1];
+			region_converted[i,4]= region_info[i,4]*0.6+0.3;
 		}
-		colnames(region_converted)=c("chrom","start","end");
+		#colnames(region_converted)=c("chrom","start","end");
+		colnames(region_converted)=c("chrom","start","end","value");
 		xrng=range(Chrom[,1:2]);
 		df<-data.frame();
 		themes<-theme (legend.position="non",axis.ticks=element_blank(), axis.line=element_blank(),panel.grid.minor=element_blank(),panel.background=element_blank(),text=element_blank());
-		q<-ggplot(df)+geom_rect(aes(NULL,NULL,xmin=start,xmax=end),ymin=0.3,ymax=0.9,data=region_converted,fill="red",xlab="",ylab="")+ylim(0,1)+scale_x_continuous(limits=c(xrng[1],xrng[2]),expand=c(0,0));
-		q<-q+geom_rect(aes(NULL,NULL,xmin=start,xmax=end,fill=name),ymin=0.9,ymax=1,data= Chrom,xlab="",ylab="");
+		q<-ggplot(df)+geom_rect(aes(NULL,NULL,xmin=start,xmax=end,ymin=0.1,ymax=value),data=region_converted,fill="red",xlab="",ylab="")+ylim(0,1)+scale_x_continuous(limits=c(xrng[1],xrng[2]),expand=c(0,0));
+		q<-q+geom_rect(aes(NULL,NULL,xmin=start,xmax=end,fill=name,ymin=0,ymax=0.1),data=Chrom,xlab="",ylab="");
 		q<-q+themes;
 	}
 	q;
