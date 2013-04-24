@@ -42,19 +42,13 @@ sub Get_UTR{
     }
 
     my $Len_UTRa=$cdsF->{'start'} - $mRNA_s;
-    if ($Len_UTRa > 0) {
+    if ($Len_UTRa >= 0) {
         $UTRA = $cdsF->{'start'}-1;
-    }
-    else{
-        $UTRA="NA";
     }
 
     my $Len_UTRb=$mRNA_e - $cdsR->{'end'};
-    if($Len_UTRb > 0){
+    if($Len_UTRb >= 0){
         $UTRB = $cdsR->{'end'}+1;
-    }
-    else{
-        $UTRB="NA";
     }
 
     return ($UTRA, $UTRB);
@@ -382,31 +376,47 @@ sub Search_SVCoding{
     my $isleftfound=0;
     for(my $i=0;$i<@Chrom_Anno;$i++){
         my $geneinfo=$Chrom_Anno[$i];
+        my $iscount=0;
         if ($geneinfo->{'start'} >= $bpleft && $geneinfo->{'start'} <= $bpright
             || $geneinfo->{'start'} <= $bpleft && $geneinfo->{'end'} >= $bpleft) { ##overlap
-            $cdscount++;
             my @cds=@{$geneinfo->{'transcripts'}->[0]->{'cds'}};
             foreach my $cdsinfo(@cds){
                 if ($cdsinfo->{'start'} >= $bpleft && $cdsinfo->{'start'} <=$bpright ) {
                     if ($cdsinfo->{'end'} >= $bpright) {
                         my $overlen=$bpright-$cdsinfo->{'start'}+1;
                         $cdslength+=$overlen;
+                        if ($iscount==0) {
+                            $cdscount++;
+                            $iscount=1;
+                        }
                         last;
                     }
                     else{
                         my $overlen=$cdsinfo->{'end'}-$cdsinfo->{'start'}+1;
                         $cdslength+=$overlen;
+                        if ($iscount==0) {
+                            $cdscount++;
+                            $iscount=1;
+                        }
                     }
                 }
                 elsif($cdsinfo->{'start'} <= $bpleft && $cdsinfo->{'end'} >=$bpleft){
                     if ($cdsinfo->{'end'} >= $bpright) {
                         my $overlen=$bpright-$bpleft+1;
                         $cdslength+=$overlen;
+                        if ($iscount==0) {
+                            $cdscount++;
+                            $iscount=1;
+                        }
                         last;
                     }
                     else{
                         my $overlen=$cdsinfo->{'end'}-$bpleft+1;
                         $cdslength+=$overlen;
+                        if ($iscount==0) {
+                            $cdscount++;
+                            $iscount=1;
+                        }
                     }
                 }
                 elsif($cdsinfo->{'start'} >= $bpright){
