@@ -270,25 +270,25 @@ sub Search_GeneRegion{
                 if ($geneinfo->{'strand'} eq "-") {
                     $intro_count=scalar(@exons)-$intro_count;
                 }
-                $outtext = "intro_$intro_count -- $gene($genestrand)\t";
+                $outtext = "intro_$intro_count -- $gene($genestrand)";
                 last;
             }
         }
         if ($exons[$i]->{'start'} <= $BPSite && $exons[$i]->{'end'} >=$BPSite) {
             if ($BPSite <= $transcript->{'UTRA'}) {
                 if ($geneinfo->{'strand'} eq "+") {
-                    $outtext = "5UTR -- $gene($genestrand)\t";
+                    $outtext = "5UTR -- $gene($genestrand)";
                 }
                 else{
-                    $outtext = "3UTR -- $gene($genestrand)\t";
+                    $outtext = "3UTR -- $gene($genestrand)";
                 }
             }
             elsif ($BPSite >= $transcript->{'UTRB'}) {
                 if ($geneinfo->{'strand'} eq "+") {
-                    $outtext = "3UTR -- $gene($genestrand)\t";
+                    $outtext = "3UTR -- $gene($genestrand)";
                 }
                 else{
-                    $outtext = "5UTR -- $gene($genestrand)\t";
+                    $outtext = "5UTR -- $gene($genestrand)";
                 }
             }
             else{
@@ -299,7 +299,7 @@ sub Search_GeneRegion{
                 else{
                     $exon_count=$i+1;
                 }
-                $outtext = "exon_$exon_count -- $gene($genestrand)\t";
+                $outtext = "exon_$exon_count -- $gene($genestrand)";
             }
             last;
         }
