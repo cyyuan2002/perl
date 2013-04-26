@@ -33,11 +33,13 @@ my $pbsoutFile=(defined $opts{o}) ? $opts{o} : "$pbsName.out";
 my $pbserrFile=(defined $opts{e}) ? $opts{e} : "$pbsName.err";
 print $outfile "\#!/bin/bash\n\#\$ -v PATH\n\#\$ -v LD_LIBRARY_PATH=\"\$LD_LIBRARY_PATH:\/opt\/apps\/lib64\"\n\#\$ -N $pbsName\n\#\$ -pe threaded $ppNumber\n";
 print $outfile "$addition\n" if ($addition ne "");
-if($nodeName eq ""){
-	print $outfile "\#\$ -q \*\@mmrl-n01\n";
-}
-else{
-	print $outfile "\#\$ -q \*\@$nodeName\n";
+if($nodeName ne ""){
+	if ($nodeName eq 'm') {
+		print $outfile "\#\$ -q \*\@mmrl-n01\n";
+	}
+	else{
+		print $outfile "\#\$ -q \*\@$nodeName\n";
+	}
 }
 print $outfile "\#\$ -o $directory\/$pbsoutFile\n\#\$ -e $directory\/$pbserrFile\n";
 if($emailnotify==1){
