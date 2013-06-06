@@ -127,7 +127,7 @@ while (<F>)
 		$annotation.=$_;
 		$annotation=~s/\s+/ /g;
 	} #This sentence could get the very long annotation that is longer than one line;
-	elsif (/Score = (.+) bits.+Expect\S* =\s+(\S+),\s*/)
+	elsif (/Score = (.+) bits.+Expect\S* =\s+(\S+)/)
 	{
 		if($i==1)
 		{
