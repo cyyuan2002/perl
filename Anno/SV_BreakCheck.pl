@@ -147,7 +147,11 @@ open(my $fh_out,">$OutFile");
 
 for(my $i=0;$i<@SVPoints;$i++){
     print $fh_out $SVPoints[$i]->{'chrA'},"\t",$SVPoints[$i]->{'posA'},"\t",$SVPoints[$i]->{'chrB'},
-    "\t",$SVPoints[$i]->{'posB'},"\t",$SVPoints[$i]->{'sv'},"\tpass\t",$SVPoints[$i]->{'soft'},"\n";
+    "\t",$SVPoints[$i]->{'posB'},"\t",$SVPoints[$i]->{'sv'},"\tpass\t",$SVPoints[$i]->{'soft'};
+    if ($SVPoints[$i]->{'dir'} ne "") {
+        print $fh_out "\t",$SVPoints[$i]->{'dir'};
+    }
+    print $fh_out "\n";
 }
 
 for(my $i=0;$i<@SVnotpassed;$i++){
@@ -327,7 +331,7 @@ sub checkSV{
             for(my $i=0;$i<@mapinfo-1;$i++){
                 my $q0e=$mapinfo[$i]->{'qE'};
                 my $q1s=$mapinfo[$i+1]->{'qS'};
-                my $overlen=abs($q1s-$q0e);
+                my $overlen=$q1s-$q0e;
                 my $contiglen=length($velvet_contigs{$contigName});
                 next if($overlen/$contiglen > $Mapping_overlap);
 
@@ -372,7 +376,7 @@ sub checkSV{
 
                 my $q0e=$mapinfo[$i]->{'qE'};
                 my $q1s=$mapinfo[$i+1]->{'qS'};
-                my $overlen=abs($q1s-$q0e);
+                my $overlen=$q1s-$q0e;
                 my $contiglen=length($velvet_contigs{$contigName});
                 next if($overlen/$contiglen > $Mapping_overlap);
 
@@ -406,26 +410,45 @@ sub checkSV{
             my @mapinfo=@{$cross_res{$contigName}};
             next if(@mapinfo == 1);
             for(my $i=0;$i<@mapinfo-1;$i++){
+                my $currdir=$mapinfo[$i]->{'str'};
+                my $nextdir=$mapinfo[$i+1]->{'str'};
+                my ($dirA,$dirB);
+                if ($currdir  eq "+") {
+                    $dirA="3";
+                }
+                else{
+                    $dirA="5";
+                }
+                if ($nextdir eq "+") {
+                    $dirB="5";
+                }
+                else{
+                    $dirB="3";
+                }
                 my $subNameA=$mapinfo[$i]->{'sN'};
                 my $subSA=$Refregion{$subNameA}->{'s'};
                 my $subNameB=$mapinfo[$i+1]->{'sN'};
                 my $subSB=$Refregion{$subNameB}->{'s'};
+		next if($subNameA eq $subNameB);
                 my $pointA=$mapinfo[$i]->{'sE'}+$subSA-1;
                 my $pointB=$mapinfo[$i+1]->{'sS'}+$subSB-1;
                 my $q0e=$mapinfo[$i]->{'qE'};
                 my $q1s=$mapinfo[$i+1]->{'qS'};
-                my $overlen=abs($q1s-$q0e);
+                my $overlen=$q0e-$q1s;
                 my $contiglen=length($velvet_contigs{$contigName});
                 next if($overlen/$contiglen > 0.1);
                 if($subNameA ne $subNameB){
                     ($pointA,$pointB)=switchAB($pointA,$pointB) if($subNameA ne $Chr1);
+                    ($dirA,$dirB)=switchAB($dirA,$dirB) if($subNameA ne $Chr1);
                     $breakpoints{'sv'}=$SVtype;
                     $breakpoints{'chrA'}=$Chr1;
                     $breakpoints{'chrB'}=$Chr2;
                     $breakpoints{'posA'}=$pointA;
                     $breakpoints{'posB'}=$pointB;
+                    $breakpoints{'dir'}=sprintf '%sto%s',$dirA,$dirB;
                     $ispass=1;
                     $matchcontig=$contigName;
+                    
                     goto FINISH;
                 }
             }
